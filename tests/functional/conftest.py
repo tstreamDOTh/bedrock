@@ -40,6 +40,10 @@ def driver_log():
 def session_capabilities(pytestconfig, session_capabilities):
     if pytestconfig.getoption('driver') == 'SauceLabs':
         session_capabilities.setdefault('tags', []).append('bedrock')
+
+        # Avoid default SauceLabs proxy for IE8.
+        session_capabilities['avoidProxy'] = True
+
     return session_capabilities
 
 
