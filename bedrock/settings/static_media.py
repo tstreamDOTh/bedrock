@@ -834,6 +834,12 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css/firefox-privacy-bundle.css',
     },
+    'firefox_privacy_quantum': {
+        'source_filenames': (
+            'css/privacy/firefox-privacy-quantum.scss',
+        ),
+        'output_filename': 'css/firefox-privacy-quantum-bundle.css',
+    },
     'privacy': {
         'source_filenames': (
             'css/privacy/privacy.less',
@@ -1656,6 +1662,16 @@ PIPELINE_JS = {
             'js/privacy/firefox-privacy.js',
         ),
         'output_filename': 'js/firefox-privacy-bundle.js',
+    },
+    'firefox_privacy_quantum': {
+        'source_filenames': (
+            'js/libs/jquery.waypoints.min.js',
+            'js/libs/jquery.waypoints-sticky.min.js',
+            'js/base/uitour-lib.js',
+            'js/privacy/firefox-privacy.js',
+            'js/privacy/sticky-header.js',
+        ),
+        'output_filename': 'js/firefox-privacy-quantum-bundle.js',
     },
     'privacy': {
         'source_filenames': (

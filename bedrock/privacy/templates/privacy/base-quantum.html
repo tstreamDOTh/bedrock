@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block page_css %}
-  {% stylesheet 'firefox_privacy' %}
+  {% stylesheet 'firefox_privacy_quantum' %}
 {% endblock %}
 
 {% block body_id %}firefox-notice{% endblock %}
@@ -33,41 +33,45 @@
 {% block content %}
 <article class="section-content" itemtype="http://schema.org/Article">
 
-<header class="privacy-head">
-  <div class="privacy-head-wrapper">
-    <h1 itemprop="name">{{ header.h2|join|safe }}</h1>
+  <header class="privacy-head">
+    <div class="content">
+      <h1 itemprop="name">{{ header.h2|join|safe }}</h1>
 
-    <time datetime="{{ header.select('[datetime]')[0]['datetime'] }}" itemprop="dateModified">{{ header.select('[datetime]')[0].string }}</time>
-  </div>
-</header>
-
-<section class="privacy-lead-in">
-  <div class="content-girdle">
-    {{ lead_in.select('header')|join|safe }}
-    <div class="optional-lead-in">
-      {{ lead_in.select('div p:nth-of-type(1)')|join|safe }}
+      <time datetime="{{ header.select('[datetime]')[0]['datetime'] }}" itemprop="dateModified">{{ header.select('[datetime]')[0].string }}</time>
     </div>
-    {{ lead_in.select('div p:nth-of-type(2)')|join|safe }}
-  </div>
-</section>
+  </header>
 
-<main itemprop="articleBody">
-  {% set sections = doc.body.find_all('section', recursive=False) %}
-  {% for section in sections %}
-    {{ section|safe }}
-  {% endfor %}
-</main>
+  <section class="privacy-lead-in">
+    <div class="content">
+      {{ lead_in.select('header')|join|safe }}
+      <div class="optional-lead-in">
+        {{ lead_in.select('div p:nth-of-type(1)')|join|safe }}
+      </div>
+      {{ lead_in.select('div p:nth-of-type(2)')|join|safe }}
+    </div>
+  </section>
 
-{% if footnote %}
-<section class="privacy-footnote">
-  <div class="content-girdle">
-    {{ footnote.div|join|safe }}
+  <div class="main-container">
+    <div class="content">
+      <main itemprop="articleBody">
+        {% set sections = doc.body.find_all('section', recursive=False) %}
+        {% for section in sections %}
+          {{ section|safe }}
+        {% endfor %}
+      </main>
+    </div>
   </div>
-</section>
-{% endif %}
+
+  {% if footnote %}
+  <section class="privacy-footnote">
+    <div class="content">
+      {{ footnote.div|join|safe }}
+    </div>
+  </section>
+  {% endif %}
 </article>
 {% endblock %}
 
 {% block js %}
-  {% javascript 'firefox_privacy' %}
+  {% javascript 'firefox_privacy_quantum' %}
 {% endblock %}

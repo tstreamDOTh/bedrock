@@ -2,4 +2,9 @@
  # License, v. 2.0. If a copy of the MPL was not distributed with this
  # file, You can obtain one at http://mozilla.org/MPL/2.0/. -#}
 
-{% extends "privacy/base-quantum.html" %}
+{% if switch('firefox-57-release') %}
+  {% extends "privacy/base-quantum.html" %}
+{% else %}
+  {% extends "privacy/base.html" %}
+{% endif %}
+
