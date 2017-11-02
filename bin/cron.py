@@ -18,6 +18,7 @@ ROOT_PATH = Path(__file__).resolve().parents[1]
 ROOT = str(ROOT_PATH)
 MANAGE = str(ROOT_PATH / 'manage.py')
 HEALTH_FILE_BASE = '/tmp/last-run'
+CONFIG_DUMP_FILE = '/tmp/cron-tasks'
 
 
 def set_updated_time(name):
@@ -102,7 +103,24 @@ def update_locales():
     call_command('l10n_update')
 
 
+def get_jobs_config():
+    jobs = []
+    for job in schedule.get_jobs():
+        jobs.append((job.id, int(job.trigger.interval_length)))
+
+    return jobs
+
+
+def write_jobs_config():
+    lines = ['{},{}\n'.format(j, t) for j, t in get_jobs_config()]
+    with open(CONFIG_DUMP_FILE, 'w') as cdf:
+        cdf.writelines(lines)
+
+
 def main(args):
+    if '--skip-config-dump' not in args:
+        write_jobs_config()
+
     # run them all at startup
     for job in schedule.get_jobs():
         job.func()
