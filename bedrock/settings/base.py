@@ -696,9 +696,6 @@ STUB_INSTALLER_LOCALES = {
 # Google Analytics
 GA_ACCOUNT_CODE = ''
 
-# file to check for last data update
-HEALTH_FILE = '/tmp/last-cron-update'
-
 # Files from The Web[tm]
 EXTERNAL_FILES = {
     'credits': {

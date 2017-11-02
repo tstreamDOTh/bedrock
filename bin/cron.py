@@ -17,11 +17,11 @@ schedule = BlockingScheduler()
 ROOT_PATH = Path(__file__).resolve().parents[1]
 ROOT = str(ROOT_PATH)
 MANAGE = str(ROOT_PATH / 'manage.py')
-HEALTH_FILE = '/tmp/last-cron-update'
+HEALTH_FILE = '/tmp/last-run'
 
 
-def set_updated_time():
-    check_call('touch {}'.format(HEALTH_FILE), shell=True)
+def set_updated_time(name):
+    check_call('touch {}-{}'.format(HEALTH_FILE, name), shell=True)
 
 
 def call_command(command):
@@ -39,6 +39,7 @@ class scheduled_job(object):
         self.name = fn.__name__
         self.callback = fn
         schedule.add_job(self.run, id=self.name, *self.args, **self.kwargs)
+        set_updated_time(self.name)
         self.log('Registered')
         return self.run
 
@@ -50,7 +51,7 @@ class scheduled_job(object):
             self.log('CRASHED: {}'.format(e))
             raise
         else:
-            set_updated_time()
+            set_updated_time(self.name)
             self.log('finished successfully')
 
     def log(self, message):
@@ -91,9 +92,9 @@ def update_blog_feeds():
     call_command('update_wordpress')
 
 
-@scheduled_job('interval', minutes=5)
+@scheduled_job('interval', minutes=10)
 def update_release_notes():
-    call_command('update_release_notes --quiet')
+    call_command('update_release_notes')
 
 
 @scheduled_job('interval', minutes=10)
@@ -102,7 +103,6 @@ def update_locales():
 
 
 if __name__ == '__main__':
-    set_updated_time()
     try:
         schedule.start()
     except (KeyboardInterrupt, SystemExit):
